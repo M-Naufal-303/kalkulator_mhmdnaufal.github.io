@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+    <h2>TUGAS KALKULATOR KALKULUS</h2>
+    <h2>MHMD NAUFAL TSALATS</h2>
+    <h2>411231137</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        #calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input, select {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div id="calculator">
+    <h2>KALKULATOR</h2>
+    <label for="calculationType">Pilih Rumus Kalkulator</label>
+    <select id="calculationType" onchange="showForm()">
+        <center">
+        <option value="quadratic">Memfaktorkan persamaan kuadrat</option>
+        <option value="derivative">Menentukan turunan</option>
+        <option value="multiplication">Perkalian variabel sederhana</option>
+        </center">
+    </select>
+
+    <div id="quadraticForm">
+        <label for="a">a:</label>
+        <input type="number" id="a" step="any">
+        <label for="b">b:</label>
+        <input type="number" id="b" step="any">
+        <label for="c">c:</label>
+        <input type="number" id="c" step="any">
+        
+    </div>
+
+    <div id="derivativeForm" style="display:none;">
+        <label for="a2">a:</label>
+        <input type="number" id="a2" step="any">
+        <label for="n2">n:</label>
+        <input type="number" id="n2" step="any">
+    </div>
+
+    <div id="multiplicationForm" style="display:none;">
+        <label for="var1">Variabel pertama:</label>
+        <input type="text" id="var1">
+        <label for="power1">Pangkat variabel pertama:</label>
+        <input type="number" id="power1">
+        <label for="var2">Variabel kedua:</label>
+        <input type="text" id="var2">
+        <label for="power2">Pangkat variabel kedua:</label>
+        <input type="number" id="power2">
+    </div>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    function showForm() {
+        var calculationType = document.getElementById("calculationType").value;
+        document.getElementById("quadraticForm").style.display = calculationType === "quadratic" ? "block" : "none";
+        document.getElementById("derivativeForm").style.display = calculationType === "derivative" ? "block" : "none";
+        document.getElementById("multiplicationForm").style.display = calculationType === "multiplication" ? "block" : "none";
+        clearResult();
+    }
+
+    function clearResult() {
+        document.getElementById("result").innerHTML = "";
+    }
+
+    function calculate() {
+        var calculationType = document.getElementById("calculationType").value;
+        var resultDiv = document.getElementById("result");
+        var result = "";
+
+        switch (calculationType) {
+            case "quadratic":
+                result = solveQuadraticEquation();
+                break;
+
+            case "derivative":
+                result = calculateDerivative();
+                break;
+
+            case "multiplication":
+                result = multiplyVariables();
+                break;
+        }
+
+        resultDiv.innerHTML = result;
+    }
+
+    function solveQuadraticEquation() {
+        var a = parseFloat(document.getElementById("a").value);
+        var b = parseFloat(document.getElementById("b").value);
+        var c = parseFloat(document.getElementById("c").value);
+        var discriminant = b * b - 4 * a * c;
+
+        if (discriminant >= 0) {
+            var x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+            var x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+            return "x1 = " + x1 + "<br>x2 = " + x2;
+        } else {
+            return "Bilangan imaginer!";
+        }
+    }
+
+    function calculateDerivative() {
+        var a2 = parseFloat(document.getElementById("a2").value);
+        var n2 = parseFloat(document.getElementById("n2").value);
+        var exponent = n2 - 1;
+        var derivative = n2 * a2;
+
+        return "f'(x) = " + derivative + "x^" + exponent;
+    }
+
+    function multiplyVariables() {
+        var var1 = document.getElementById("var1").value;
+        var power1 = parseFloat(document.getElementById("power1").value);
+        var var2 = document.getElementById("var2").value;
+        var power2 = parseFloat(document.getElementById("power2").value);
+
+        if (var1 === var2) {
+            return var1 + "^" + (power1 + power2);
+        } else {
+            return var1 + "^" + power1 + " + " + var2 + "^" + power2;
+        }
+    }
+</script>
+
+</body>
+</html>
